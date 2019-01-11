@@ -17,7 +17,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
 
-    private int volume;
+
     private HttpRequest hr;
 
     private boolean isTvOn;
