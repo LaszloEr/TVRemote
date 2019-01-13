@@ -16,13 +16,17 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-
-
     private HttpRequest hr;
 
     private boolean isTvOn;
+    private int Volume;
+
+
+    public MainActivity() {
+        Volume = 50;
+        isTvOn = false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,16 +38,42 @@ isTvOn = false;
     }
 
 
-    public void Power(View v)
+    public void Power(View v) {
+
+        if (!isTvOn) {
+            sendCommandToTvServer("standby=0");
+            isTvOn = true;
+        } else {
+            sendCommandToTvServer("standby=1");
+            isTvOn = false;
+        }
+
+    }
+
+    public void VolumeDown(View v)
     {
 
-        sendCommandToTvServer("standby=1");
+        if (Volume > 0)
+        {
+            Volume--;
+        }
+        sendCommandToTvServer("volume=" + Volume);
     }
 
 
+    public void VolumeUp(View v)
+    {
+
+        if (Volume < 100)
+        {
+            Volume++;
+        }
+        sendCommandToTvServer("volume=" + Volume);
+    }
+
 
     public void sendCommandToTvServer(String message)  {
-        HttpRequest hr  = new HttpRequest("172.16.205.160",1000,true);
+        HttpRequest hr  = new HttpRequest("192.168.178.40",1000,true);
 
         try {
             hr.execute(message);
