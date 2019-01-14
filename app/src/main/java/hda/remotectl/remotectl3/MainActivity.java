@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -20,11 +21,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isTvOn;
     private int Volume;
+    private TextView VolumeText;
 
 
     public MainActivity() {
         Volume = 50;
         isTvOn = false;
+
     }
 
     @Override
@@ -46,6 +49,7 @@ isTvOn = false;
         } else {
             sendCommandToTvServer("standby=1");
             isTvOn = false;
+
         }
 
     }
@@ -58,6 +62,8 @@ isTvOn = false;
             Volume--;
         }
         sendCommandToTvServer("volume=" + Volume);
+        VolumeText = (TextView) findViewById(R.id.lblVolume);
+        VolumeText.setText(Volume + "%");
     }
 
 
@@ -69,6 +75,8 @@ isTvOn = false;
             Volume++;
         }
         sendCommandToTvServer("volume=" + Volume);
+        VolumeText = (TextView) findViewById(R.id.lblVolume);
+        VolumeText.setText(Volume + "%");
     }
 
 
