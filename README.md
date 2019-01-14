@@ -1,7 +1,10 @@
 # TVRemote
 Implementiert:
+
 ✓ Lautstärke
+
 ✓ Power
+
 ✓ Design
 
 TODO:
