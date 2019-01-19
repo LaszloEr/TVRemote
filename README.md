@@ -7,17 +7,18 @@ Implementiert:
 
 ✓ Design
 
+✓ Kanalliste herunterladen
+
+✓ Kanalliste einlesen
+
+✓ Kanalliste anzeigen
+
 TODO:
-- Zustände speichern/laden
+- Zustände der Daten(Kanalliste, Lautstärke) Speichern und beim nächsten Start laden
 - IP-Addresseingabe
-- Kanalliste herunterladen
-- Kanalliste einlesen
-- Kanalliste anzeigen
 - Schwache doppelte Kanäle löschen
 - Bildmodus (Zoom/kein Zoom)
 - Picture in Picture
 - Pause/Resume TV
 - ?
 
-Optional:
-- Änderbare Kanalliste (Sender löschen, Sender verschieben)
