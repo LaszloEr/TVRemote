@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,8 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
 
         Button btnChannel = (Button) convertView.findViewById(R.id.btnChannel);
 
+        ImageButton btnChannelPiP = (ImageButton) convertView.findViewById(R.id.btnChannelPiP);
+
         btnChannel.setText(item.getChannelname());
 
         btnChannel.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,17 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
 
                 comm.sendCommandToTvServer("channelMain=" + item.getChannelnumber());
                 Log.i(TAG, "Switching to channel: #" + item.getChannelnumber() + ": " + item.getChannelname());
+
+            }
+        });
+        btnChannelPiP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+
+                comm.sendCommandToTvServer("showPip=1");
+                comm.sendCommandToTvServer("channelPip=" + item.getChannelnumber());
+                comm.setPiP(true);
+                Log.i(TAG, "Switching to PiP channel: #" + item.getChannelnumber() + ": " + item.getChannelname());
 
             }
         });

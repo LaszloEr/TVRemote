@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class Communication {
     private String ipAddress;
+    private boolean isPipOn;
     public Communication(String myIP){
         ipAddress = myIP;
     }
@@ -40,5 +41,14 @@ public class Communication {
        return null;
     }
 
+    public boolean getPiP(){
+        if (isPipOn == true) {
+            return true;
+        }
+        return false;
+    }
 
+    public void setPiP(boolean newStatus) {
+        isPipOn = newStatus;
+    }
 }

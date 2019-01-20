@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         zoomMain = false;
 
 
-
     }
 
     @Override
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     public void ZoomMain(View v) {
 
         if (!zoomMain) {
@@ -108,6 +108,22 @@ public class MainActivity extends AppCompatActivity {
         VolumeText = (TextView) findViewById(R.id.lblVolume);
         VolumeText.setText(Volume + "%");
     }
+
+
+    public void PiPSwitch(View v) {
+
+        if (comm.getPiP() == true) {
+            comm.sendCommandToTvServer("showPip=0");
+            comm.setPiP(false);
+            return;
+        }
+        if (comm.getPiP() == false) {
+            comm.sendCommandToTvServer("showPip=1");
+            comm.setPiP(true);
+        }
+
+    }
+
 
 
     public void scanChannels() {
