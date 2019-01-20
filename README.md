@@ -13,12 +13,13 @@ Implementiert:
 
 ✓ Kanalliste anzeigen
 
+✓ Picture in Picture
+
 TODO:
-- Zustände der Daten(Kanalliste, Lautstärke) Speichern und beim nächsten Start laden
+- Zustände der Daten(Kanalliste, Lautstärke) speichern und beim nächsten Start laden
 - IP-Addresseingabe
 - Schwache doppelte Kanäle löschen
 - Bildmodus (Zoom/kein Zoom) für Picture in Picture
-- Picture in Picture
 - Pause/Resume TV
 - ?
 
