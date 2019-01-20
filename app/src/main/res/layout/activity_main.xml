@@ -141,6 +141,7 @@
         style="@android:style/Widget.Material.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:onClick="ZoomMain"
         android:src="@drawable/aspectratio"
         app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal88"
         app:layout_constraintEnd_toStartOf="@+id/guidelinevertical40"

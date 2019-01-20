@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private HttpRequest hr;
 
     private boolean isTvOn;
+    private boolean zoomMain;
+
     private int Volume;
     private TextView VolumeText;
     private ArrayList<Channel> channels = new ArrayList<Channel>();
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Volume = 50;
         isTvOn = false;
         comm = new Communication(IpAddress);
+        zoomMain = false;
 
 
 
@@ -68,6 +71,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             comm.sendCommandToTvServer("standby=1");
             isTvOn = false;
+
+        }
+
+    }
+    public void ZoomMain(View v) {
+
+        if (!zoomMain) {
+            comm.sendCommandToTvServer("zoomMain=1");
+            zoomMain = true;
+        } else {
+            comm.sendCommandToTvServer("zoomMain=0");
+            zoomMain = false;
 
         }
 
