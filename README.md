@@ -15,11 +15,13 @@ Implementiert:
 
 ✓ Picture in Picture
 
+✓ Pause/Resume TV
+
 TODO:
-- Zustände der Daten(Kanalliste, Lautstärke) speichern und beim nächsten Start laden
-- IP-Addresseingabe
 - Schwache doppelte Kanäle löschen
-- Bildmodus (Zoom/kein Zoom) für Picture in Picture
-- Pause/Resume TV
+- Kanalliste nach Kanalscan leeren
+- Zustände der Daten(Kanalliste, Lautstärke) speichern und beim nächsten Start laden(optional?)
+- IP-Addresseingabe (optional?)
+- Bildmodus (Zoom/kein Zoom) für Picture in Picture (optional?)
 - ?
 
