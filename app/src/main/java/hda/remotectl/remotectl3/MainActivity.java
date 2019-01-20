@@ -1,6 +1,9 @@
 package hda.remotectl.remotectl3;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorSpace;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,9 +30,15 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isTvOn;
     private boolean zoomMain;
+    private boolean isPause;
+    private long lastStartTime;
+    private long timeDifference;
 
     private int Volume;
+    private ListView lstView;
+    private TextView Channeltext;
     private TextView VolumeText;
+    private ImageButton btnPause;
     private ArrayList<Channel> channels = new ArrayList<Channel>();
     private JSONObject channellist;
     Communication comm;
@@ -41,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         isTvOn = false;
         comm = new Communication(IpAddress);
         zoomMain = false;
+        isPause = false;
 
 
     }
@@ -49,16 +60,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         isTvOn = false;
 
 
         adapter = new ChannelAdapter(this, items);
 
-        ListView lstView = (ListView) findViewById(R.id.channels);
+        lstView = (ListView) findViewById(R.id.channels);
         lstView.setAdapter(adapter);
 
         adapter.setCommunication(comm);
+        Channeltext = (TextView) findViewById(R.id.lblChannelname);
+        adapter.setLabelId(Channeltext);
+        scanChannels();
     }
 
 
@@ -75,6 +88,51 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void ChannelUp(View v) {
+        int i;
+        for (i = 0; i < items.size(); i++) {
+            if (items.get(i).getIsCurrentChannel()) {
+                if (i == 0) {
+                    return;
+                } else {
+
+                    items.get(i).setIsCurrentChannel(false);
+                    i--;
+                    items.get(i).setIsCurrentChannel(true);
+                    comm.sendCommandToTvServer("channelMain=" + items.get(i).getChannelnumber());
+                    Channeltext.setText(items.get(i).getChannelname());
+                    return;
+                }
+            }
+        }
+        items.get(0).setIsCurrentChannel(true);
+        comm.sendCommandToTvServer("channelMain=" + items.get(0).getChannelnumber());
+        Channeltext.setText(items.get(0).getChannelname());
+    }
+
+    public void ChannelDown(View v) {
+        int i;
+        for (i = 0; i < items.size(); i++) {
+            if (items.get(i).getIsCurrentChannel()) {
+                if (i == items.size() - 1) {
+                    return;
+                } else {
+
+                    items.get(i).setIsCurrentChannel(false);
+                    i++;
+                    items.get(i).setIsCurrentChannel(true);
+                    comm.sendCommandToTvServer("channelMain=" + items.get(i).getChannelnumber());
+                    Channeltext.setText(items.get(i).getChannelname());
+                    return;
+                }
+            }
+        }
+        items.get(items.size() - 1).setIsCurrentChannel(true);
+        comm.sendCommandToTvServer("channelMain=" + items.get(items.size() - 1).getChannelnumber());
+        Channeltext.setText(items.get(items.size() - 1).getChannelname());
+    }
+
+
     public void ZoomMain(View v) {
 
         if (!zoomMain) {
@@ -86,6 +144,24 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void Pausebutton(View v) {
+        if (!isPause) {
+            btnPause = (ImageButton) findViewById(R.id.btnPause);
+            btnPause.setImageResource(R.drawable.play);
+            isPause = true;
+            lastStartTime = System.currentTimeMillis();
+            comm.sendCommandToTvServer("timeShiftPause=");
+            return;
+        } else {
+            btnPause = (ImageButton) findViewById(R.id.btnPause);
+            btnPause.setImageResource(R.drawable.pause);
+            isPause = false;
+            long endtime = System.currentTimeMillis();
+            timeDifference = timeDifference + (endtime - lastStartTime) / 1000;
+            comm.sendCommandToTvServer("timeShiftPlay=" + timeDifference);
+        }
     }
 
     public void VolumeDown(View v) {
@@ -121,9 +197,7 @@ public class MainActivity extends AppCompatActivity {
             comm.sendCommandToTvServer("showPip=1");
             comm.setPiP(true);
         }
-
     }
-
 
 
     public void scanChannels() {
@@ -134,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Channelsearchbutton(View v) {
 
+        deleteChannellist();
         scanChannels();
 
     }
@@ -160,8 +235,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void deleteChannellist() {
+
+        ChannelAdapter tmpadapter = (ChannelAdapter) lstView.getAdapter();
+            tmpadapter.clear();
+        tmpadapter.notifyDataSetChanged();
+
+    }
 
     public void addNewItem() {
+
 
         Iterator itr = channels.iterator();
 

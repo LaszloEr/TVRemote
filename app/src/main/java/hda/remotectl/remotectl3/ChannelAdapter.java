@@ -1,8 +1,10 @@
 package hda.remotectl.remotectl3;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import static android.app.PendingIntent.getActivity;
 
 public class ChannelAdapter extends ArrayAdapter<Channelitem> {
     Communication comm;
+    TextView labelIdView;
     final static private String TAG = "NewsItemAdapter";
 
     public ChannelAdapter(Context context, ArrayList<Channelitem> items) {
@@ -46,9 +49,10 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
 
         final View temp = convertView;
 
-        Button btnChannel = (Button) convertView.findViewById(R.id.btnChannel);
+        final Button btnChannel = (Button) convertView.findViewById(R.id.btnChannel);
 
         ImageButton btnChannelPiP = (ImageButton) convertView.findViewById(R.id.btnChannelPiP);
+
 
         btnChannel.setText(item.getChannelname());
 
@@ -58,6 +62,12 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
 
                 comm.sendCommandToTvServer("channelMain=" + item.getChannelnumber());
                 Log.i(TAG, "Switching to channel: #" + item.getChannelnumber() + ": " + item.getChannelname());
+                for (int i = 0; i < ChannelAdapter.this.getCount(); i++) {
+                    ChannelAdapter.this.getItem(i).setIsCurrentChannel(false);
+
+                }
+                item.setIsCurrentChannel(true);
+                labelIdView.setText(item.getChannelname());
 
             }
         });
@@ -69,14 +79,14 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
                 comm.sendCommandToTvServer("channelPip=" + item.getChannelnumber());
                 comm.setPiP(true);
                 Log.i(TAG, "Switching to PiP channel: #" + item.getChannelnumber() + ": " + item.getChannelname());
-
             }
         });
-
-
         return convertView;
     }
 
+    public void setLabelId(TextView newView){
+        this.labelIdView = newView;
+    }
     public void setCommunication(Communication newComm) {
         this.comm = newComm;
     }

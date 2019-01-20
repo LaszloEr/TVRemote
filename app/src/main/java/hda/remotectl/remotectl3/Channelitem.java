@@ -9,11 +9,13 @@ import java.util.Date;
 public class Channelitem {
     private String channelname;
     private String channelnumber;
+    private boolean isCurrentChannel;
 
 
     public Channelitem(String newChannelname, String newChannelnumber) {
         this.channelname = newChannelname;
         this.channelnumber = newChannelnumber;
+        this.isCurrentChannel = false;
     }
 
     public String getChannelname() {
@@ -31,5 +33,9 @@ public class Channelitem {
     public void setChannelnumber(String newChannelnumber) {
         this.channelnumber = newChannelnumber;
     }
+
+    public boolean getIsCurrentChannel() {return isCurrentChannel;}
+
+    public void setIsCurrentChannel(boolean newIsCurrentChannel){this.isCurrentChannel = newIsCurrentChannel; }
 
 }
