@@ -212,41 +212,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Channelsearchbutton(View v) {
-
-        deleteChannellist();
         scanChannels();
-
     }
 
     protected void createChannelListFromJSON() {
         try {
-
+            channels.clear();
+            ChannelAdapter tmpadapter = (ChannelAdapter) lstView.getAdapter();
+            tmpadapter.clear();
+            tmpadapter.notifyDataSetChanged();
             // txtLog.setText(json.names().toString());
             JSONArray array = channellist.getJSONArray("channels");
+
+            String inListName;
+            int inListQuality = 0;
+            boolean duplicateChannelFound = false;
+            int k;
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 Channel c = new Channel(
+
                         obj.getString("frequency"),
                         obj.getString("channel"),
                         obj.getInt("quality"),
                         obj.getString("program"),
                         obj.getString("provider"));
-                channels.add(c);
-                Log.i("ChannelScan", "\n " + c.getProgram() + "\t\t\t\t (Channel: " + c.getChannel() + ")");
+
+                duplicateChannelFound = false;
+                for (k = 0; k < channels.size(); k++) {
+                    inListName = channels.get(k).getProgram();
+                    inListQuality = channels.get(k).getQuality();
+                    if (inListName.contentEquals(c.getProgram())) {
+                        duplicateChannelFound = true;
+                        break;
+                    }
+                }
+
+                if (duplicateChannelFound) {
+                    if (inListQuality < c.getQuality()) {
+                        channels.set(k, c);
+                    }
+                } else {
+                    channels.add(c);
+                    Log.i("ChannelScan", "\n " + c.getProgram() + "\t\t\t\t (Channel: " + c.getChannel() + ")");
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteChannellist() {
-
-        ChannelAdapter tmpadapter = (ChannelAdapter) lstView.getAdapter();
-            tmpadapter.clear();
-        tmpadapter.notifyDataSetChanged();
-
-    }
 
     public void addNewItem() {
 
