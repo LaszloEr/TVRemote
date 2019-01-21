@@ -17,9 +17,11 @@ Implementiert:
 
 ✓ Pause/Resume TV
 
+✓ Schwache doppelte Kanäle löschen
+
+✓ Kanalliste nach Kanalscan leeren
+
 TODO:
-- Schwache doppelte Kanäle löschen
-- Kanalliste nach Kanalscan leeren
 - Zustände der Daten(Kanalliste, Lautstärke) speichern und beim nächsten Start laden(optional?)
 - IP-Addresseingabe (optional?)
 - Bildmodus (Zoom/kein Zoom) für Picture in Picture (optional?)
