@@ -30,6 +30,8 @@ import static android.app.PendingIntent.getActivity;
 public class ChannelAdapter extends ArrayAdapter<Channelitem> {
     Communication comm;
     TextView labelIdView;
+    ImageButton btnPictureinpicture;
+    ImageButton btnMainPip;
     final static private String TAG = "NewsItemAdapter";
 
     public ChannelAdapter(Context context, ArrayList<Channelitem> items) {
@@ -51,7 +53,7 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
 
         final Button btnChannel = (Button) convertView.findViewById(R.id.btnChannel);
 
-        ImageButton btnChannelPiP = (ImageButton) convertView.findViewById(R.id.btnChannelPiP);
+        final ImageButton btnPictureinpicture = (ImageButton) convertView.findViewById(R.id.btnChannelPiP);
 
 
         btnChannel.setText(item.getChannelname());
@@ -71,7 +73,7 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
 
             }
         });
-        btnChannelPiP.setOnClickListener(new View.OnClickListener() {
+        btnPictureinpicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
@@ -79,6 +81,7 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
                 comm.sendCommandToTvServer("channelPip=" + item.getChannelnumber());
                 comm.setPiP(true);
                 Log.i(TAG, "Switching to PiP channel: #" + item.getChannelnumber() + ": " + item.getChannelname());
+                btnMainPip.setImageResource(R.drawable.disablepip);
             }
         });
         return convertView;
@@ -87,6 +90,7 @@ public class ChannelAdapter extends ArrayAdapter<Channelitem> {
     public void setLabelId(TextView newView){
         this.labelIdView = newView;
     }
+    public void setBtnMainPip(ImageButton newButton) {this.btnMainPip = newButton;}
     public void setCommunication(Communication newComm) {
         this.comm = newComm;
     }

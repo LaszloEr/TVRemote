@@ -28,7 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="play" />
+                            <entry key="outputName" value="disablepip" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>

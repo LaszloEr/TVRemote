@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView Channeltext;
     private TextView VolumeText;
     private ImageButton btnPause;
+    private ImageButton btnPip;
     private ArrayList<Channel> channels = new ArrayList<Channel>();
     private JSONObject channellist;
     Communication comm;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.setCommunication(comm);
         Channeltext = (TextView) findViewById(R.id.lblChannelname);
         adapter.setLabelId(Channeltext);
+        btnPip = (ImageButton) findViewById(R.id.btnPictureinpicture);
+        adapter.setBtnMainPip(btnPip);
         scanChannels();
     }
 
@@ -191,11 +194,13 @@ public class MainActivity extends AppCompatActivity {
         if (comm.getPiP() == true) {
             comm.sendCommandToTvServer("showPip=0");
             comm.setPiP(false);
+            btnPip.setImageResource(R.drawable.pictureinpicture);
             return;
         }
         if (comm.getPiP() == false) {
             comm.sendCommandToTvServer("showPip=1");
             comm.setPiP(true);
+            btnPip.setImageResource(R.drawable.disablepip);
         }
     }
 
