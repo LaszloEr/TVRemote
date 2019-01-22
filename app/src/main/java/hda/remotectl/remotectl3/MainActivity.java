@@ -1,6 +1,7 @@
 package hda.remotectl.remotectl3;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorSpace;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnPip;
     private ArrayList<Channel> channels = new ArrayList<Channel>();
     private JSONObject channellist;
+    private  SharedPreferences settings;
+
     Communication comm;
     String IpAddress = "192.168.178.40";
     private ChannelAdapter adapter; // adapter
@@ -75,20 +78,45 @@ public class MainActivity extends AppCompatActivity {
         btnPip = (ImageButton) findViewById(R.id.btnPictureinpicture);
         adapter.setBtnMainPip(btnPip);
         scanChannels();
+
+
     }
 
 
     public void Power(View v) {
+        Log.d("AddNewRecord", "getAll: " + getPreferences(MODE_PRIVATE).getAll());
 
-        if (!isTvOn) {
+        if ((get("TvON") == 0)) {
+            save("TvOn", 1);
             comm.sendCommandToTvServer("standby=0");
             isTvOn = true;
         } else {
+            save("TvOn", 0);
+
             comm.sendCommandToTvServer("standby=1");
             isTvOn = false;
 
+
+
         }
 
+    }
+    private void save(String key, Integer value){
+        if (settings == null ) {
+            settings = getSharedPreferences("settings", 0);
+        }
+SharedPreferences.Editor editor = settings.edit();
+
+        editor.putInt(key, value);
+        editor.commit();
+    }
+    private Integer get(String key){
+        if (settings == null ) {
+            settings = getSharedPreferences("settings", 0);
+        }
+        SharedPreferences.Editor   editor = settings.edit();
+
+        return settings.getInt(key,0);
     }
 
     public void ChannelUp(View v) {
